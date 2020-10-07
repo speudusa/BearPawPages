@@ -1,13 +1,50 @@
 ﻿<h1>BearPaw Pages Book Shelf</h1>
 
-@if (ViewBag.books.Count ==0)
+<p>
+    <a asp-controller="Books" asp-action="Add">Add Book</a> 
+</p>
+
+@if (ViewBag.books.Count == 0)
 {
     <p>Looks like you need to add some books</p>
 }
+else
+{
+<table class="table">
+    <tr>
+        <th>
+            Title
+        </th>
+        <th>
+            Author
+        </th>
+        <th>
+            Total Pages
+        </th>
+        <th>
+            Current Page
+        </th>
+        @*<th>
+            Reading Date  //waiting to the clicker
+        </th>*@
+        <th>
+            Reading Notes
+        </th>
+    </tr>
 
-<ul>
-    @foreach(string book in ViewBag.books)
-    {
-        <li>@book</li>
-    }
-</ul>
+    
+        @foreach (var book in ViewBag.books)
+        {
+<tr>
+    <td>@book.Title</td>
+    <td>@book.Author</td>
+    <td>@book.TotalPage</td>
+    <td>@book.CurrentPage</td>
+    @*<td>@book.ReadingDate</td>*@
+    <td>@book.ReadingNotes</td>
+</tr>
+        }
+
+</table>
+}
+
