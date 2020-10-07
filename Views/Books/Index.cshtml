@@ -1,0 +1,13 @@
+﻿<h1>BearPaw Pages Book Shelf</h1>
+
+@if (ViewBag.books.Count ==0)
+{
+    <p>Looks like you need to add some books</p>
+}
+
+<ul>
+    @foreach(string book in ViewBag.books)
+    {
+        <li>@book</li>
+    }
+</ul>
