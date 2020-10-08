@@ -4,6 +4,10 @@
     <a asp-controller="Books" asp-action="Add">Add Book</a> 
 </p>
 
+<p>
+    <a asp-controller="Books" asp-action="Delete">Delete Books</a>
+</p>
+
 @if (ViewBag.books.Count == 0)
 {
     <p>Looks like you need to add some books</p>
@@ -12,6 +16,9 @@ else
 {
 <table class="table">
     <tr>
+        <th>
+            Id
+        </th>
         <th>
             Title
         </th>
@@ -36,6 +43,7 @@ else
         @foreach (var book in ViewBag.books)
         {
 <tr>
+    <td>@book.Id</td>
     <td>@book.Title</td>
     <td>@book.Author</td>
     <td>@book.TotalPage</td>

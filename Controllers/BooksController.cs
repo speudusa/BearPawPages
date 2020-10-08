@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BearPawPages.Data;
 using BearPawPages.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,12 +10,11 @@ namespace BearPawPages.Controllers
 {
     public class BooksController : Controller
     {
-        static private List<Book> Books = new List<Book>();
-        
+               
         [HttpGet]
         public IActionResult Index()
         {
-            ViewBag.books = Books;
+            ViewBag.books = BookData.GetAll();
 
             return View();
         }
@@ -30,12 +30,31 @@ namespace BearPawPages.Controllers
 
         public IActionResult NewBook(string title, string author, int totalPage, int currentPage, DateTime readingDate, string readingNotes)
         {
-            Books.Add(new Book (title, author, totalPage, currentPage, readingDate, readingNotes));
+            BookData.Add(new Book (title, author, totalPage, currentPage, readingDate, readingNotes));
 
             return Redirect("/Books");
         }
 
+        //GET
+        public IActionResult Delete()
+        {
+            ViewBag.books = BookData.GetAll();
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int[] bookIds)
+        {
+            foreach(int bookId in bookIds)
+            {
+                BookData.Remove(bookId);
+            }
+            
+            return Redirect("/Books/");
+        }
+            
+
     }
 }
 
-//TODO:  Pick up at 14.3 Models & Data
+//TODO:  Pick up at 14.4 Models & Data

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace BearPawPages.Models
 {
     public class Book
-    {
+    {        
         public string Title { get; set; }
 
         public string Author { get; set; }
@@ -19,8 +19,16 @@ namespace BearPawPages.Models
 
         public string ReadingNotes { get; set; }
 
+        public int Id { get; }
+        private static int nextId = 1; //static counter variable
+
+
+
+
         public Book(string title, string author, int totalPage, int currentPage, DateTime readingDate, string readingNotes)
         {
+            Id = nextId;
+            nextId++;  //this will increment Id numbers as objects are added
             Title = title;
             Author = author;
             TotalPage = totalPage;
@@ -32,6 +40,15 @@ namespace BearPawPages.Models
         public override string ToString()
         {
             return Title;
+        }
+        public override bool Equals(object obj)
+        {
+            return obj is Book @book &&
+                Id == book.Id;
+        }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id);
         }
     }
 }
