@@ -1,0 +1,25 @@
+﻿<h1>Update Your Book mark @ViewBag.book.Title</h1>
+<h3>Update your current page to track your reading progress</h3>
+<h3>Update or add any notes, too.</h3>
+
+<form method="post" action="/Books/ReadingTime">
+        <div>
+            <lable for="currentPage">Current Page</lable>
+            <input name="currentPage" type="text" value="@ViewBag.book.CurrentPage" />
+        </div>
+
+        @*<div>
+            <lable for="readingDate">Date started reading</lable>
+            <input name="author" type="text" value="@ViewBag.book.ReadingDate" />
+        </div>*@
+
+        <div>
+            <lable for="readingNotes">Reading Notes</lable>
+            <input name="readingNotes" type="text" value="@ViewBag.book.ReadingNotes" />
+        </div>
+
+        <input type="hidden" name="bookId" value="@ViewBag.book.Id" />
+        <input type="submit" value="Move Your Book Mark" />
+</form>
+
+

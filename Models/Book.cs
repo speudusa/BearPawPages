@@ -22,18 +22,23 @@ namespace BearPawPages.Models
         public int Id { get; }
         private static int nextId = 1; //static counter variable
 
-
-
-
-        public Book(string title, string author, int totalPage, int currentPage, DateTime readingDate, string readingNotes)
+        public Book()
         {
             Id = nextId;
-            nextId++;  //this will increment Id numbers as objects are added
+            nextId++;
+            //no arguments to allow for model binding
+            //initiating ID here
+        }
+
+
+        public Book(string title, string author, int totalPage, int currentPage, string readingNotes): this()
+        {
+            //constructor chaining to pull Id 
             Title = title;
             Author = author;
             TotalPage = totalPage;
             CurrentPage = currentPage;
-            ReadingDate = readingDate;
+            //ReadingDate = readingDate;
             ReadingNotes = readingNotes;
         }
 
