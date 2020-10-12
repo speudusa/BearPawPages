@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BearPawPages.Data;
 using BearPawPages.Models;
+using BearPawPages.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BearPawPages.Controllers
@@ -14,26 +15,41 @@ namespace BearPawPages.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            ViewBag.books = BookData.GetAll();
+            List<Book> books = new List<Book>(BookData.GetAll());
 
-            return View();
+            return View(books);
         }
 
         [HttpGet]  //this DISPLAYS the form
         public IActionResult Add()
         {
-            return View();
+            AddBookViewModel addBookViewModel = new AddBookViewModel();
+            return View(addBookViewModel);
         }
 
-        [HttpPost]  //Updates
-        [Route("/Books/Add")]  //This is WHERE we will update
-
-        public IActionResult NewBook(Book newBook)
+        [HttpPost]  //PROCESSES form
+        public IActionResult Add(AddBookViewModel addBookViewModel)
         {
-            BookData.Add(newBook);
+           if(ModelState.IsValid)
+            {
+                Book newBook = new Book
+                {
+                    Title = addBookViewModel.Title,
+                    Author = addBookViewModel.Author,
+                    TotalPage = addBookViewModel.TotalPage,
+                    CurrentPage = addBookViewModel.CurrentPage,
+                    //ReadingDate = addBookViewmodel.ReadingDate,
+                    ReadingNotes = addBookViewModel.ReadingNotes
+                };
+
+                BookData.Add(newBook);
 
 
-            return Redirect("/Books");
+                return Redirect("/Books");
+            }
+
+            return View(addBookViewModel);
+
         }
 
         //Edit and EditBookData UPDATE all properties of book objects
@@ -71,6 +87,7 @@ namespace BearPawPages.Controllers
             Book book = BookData.GetById(bookId);
             ViewBag.book = book;
             ViewBag.title = $"Move Your Bookmark in {book.Title}";
+ 
             return View();
         }
 
