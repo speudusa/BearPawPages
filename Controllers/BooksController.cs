@@ -6,16 +6,24 @@ using BearPawPages.Data;
 using BearPawPages.Models;
 using BearPawPages.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileSystemGlobbing.Internal.PatternContexts;
 
 namespace BearPawPages.Controllers
 {
     public class BooksController : Controller
+        
     {
-               
+        private BookDbContext context;
+
+        public BooksController(BookDbContext dbContext)
+        {
+            context = dbContext;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
-            List<Book> books = new List<Book>(BookData.GetAll());
+            List<Book> books = context.Books.ToList();
 
             return View(books);
         }
@@ -42,7 +50,8 @@ namespace BearPawPages.Controllers
                     ReadingNotes = addBookViewModel.ReadingNotes
                 };
 
-                BookData.Add(newBook);
+                context.Books.Add(newBook);
+                context.SaveChanges();
 
 
                 return Redirect("/Books");
@@ -57,7 +66,7 @@ namespace BearPawPages.Controllers
         [Route("/Books/Edit/{bookId}")]
         public IActionResult Edit(int bookId)
         {
-            Book book = BookData.GetById(bookId);
+            Book book = context.Books.Find(bookId);
             ViewBag.book = book;
             ViewBag.title = $"Edit Book Info for {book.Title} (id={book.Id})";
 
@@ -68,7 +77,7 @@ namespace BearPawPages.Controllers
         [Route("/Books/Edit")]
         public IActionResult EditBookData(int bookId, string title, string author, int totalPage, int currentPage, DateTime readingDate, string readingNotes)
         {
-            Book book = BookData.GetById(bookId);
+            Book book = context.Books.Find(bookId);
             book.Title = title;
             book.Author = author;
             book.TotalPage = totalPage;
@@ -84,22 +93,32 @@ namespace BearPawPages.Controllers
         [Route("/Books/ReadBook/{bookId}")]
         public IActionResult ReadBook(int bookId)
         {
-            Book book = BookData.GetById(bookId);
+            Book book = context.Books.Find(bookId);
             ViewBag.book = book;
             ViewBag.title = $"Move Your Bookmark in {book.Title}";
  
             return View();
         }
 
-      
+        //**************** AAAAAAAAAAAAAAHHHHHHHHHHHHHH!***************
+        //TODO:  trying to update the Edit function
+        //https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/introduction/examining-the-edit-methods-and-edit-view
+        //https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/updating-related-data-with-the-entity-framework-in-an-asp-net-mvc-application
+
+
         [HttpPost]
         [Route("/Books/ReadingTime/")]
-        public IActionResult MoveBookMark(int bookId,  int currentPage, string readingNotes)
+        public IActionResult MoveBookMark(AddBookViewModel addBookViewModel)
         {
-            Book book = BookData.GetById(bookId);
-            book.CurrentPage = currentPage;
-            //book.ReadingDate = readingDate;
-            book.ReadingNotes = readingNotes;
+            foreach (int bookId in bookIds)
+            {
+                Book bookMark = context.Books.Find(bookId)
+                { 
+                    CurrentPage = context.Books.Add(addBookViewModel.CurrentPage),
+                //book.ReadingDate = readingDate,
+                context.Books.ReadingNotes = readingNotes,
+            
+            }
 
             return Redirect("/Books/");
         }
@@ -107,7 +126,7 @@ namespace BearPawPages.Controllers
         //GET
         public IActionResult Delete()
         {
-            ViewBag.books = BookData.GetAll();
+            ViewBag.books = context.Books.ToList();
             return View();
         }
 
@@ -116,7 +135,8 @@ namespace BearPawPages.Controllers
         {
             foreach(int bookId in bookIds)
             {
-                BookData.Remove(bookId);
+                Book theBook = context.Books.Find(bookId);
+                context.Books.Remove(theBook);
             }
             
             return Redirect("/Books/");

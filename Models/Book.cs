@@ -19,21 +19,15 @@ namespace BearPawPages.Models
 
         public string ReadingNotes { get; set; }
 
-        public int Id { get; }
-        private static int nextId = 1; //static counter variable
+        public int Id { get; set; }
 
         public Book()
         {
-            Id = nextId;
-            nextId++;
-            //no arguments to allow for model binding
-            //initiating ID here
         }
 
 
-        public Book(string title, string author, int totalPage, int currentPage, string readingNotes): this()
+        public Book(string title, string author, int totalPage, int currentPage, string readingNotes)
         {
-            //constructor chaining to pull Id 
             Title = title;
             Author = author;
             TotalPage = totalPage;
