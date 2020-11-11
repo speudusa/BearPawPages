@@ -26,28 +26,15 @@ namespace BearPawPages.Models
         }
 
 
-        public Book(string title, string author, int totalPage, int currentPage, string readingNotes)
+        public Book(string title, string author, int totalPage, int currentPage, DateTime readingDate, string readingNotes)
         {
             Title = title;
             Author = author;
             TotalPage = totalPage;
             CurrentPage = currentPage;
-            //ReadingDate = readingDate;
+            ReadingDate = readingDate;
             ReadingNotes = readingNotes;
         }
 
-        public override string ToString()
-        {
-            return Title;
-        }
-        public override bool Equals(object obj)
-        {
-            return obj is Book @book &&
-                Id == book.Id;
-        }
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Id);
-        }
     }
 }
