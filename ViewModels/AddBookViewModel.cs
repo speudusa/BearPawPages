@@ -26,5 +26,8 @@ namespace BearPawPages.ViewModels
         public string ReadingNotes { get; set; }
 
 
+        public int Id { get; set; }
+
+
     }
 }

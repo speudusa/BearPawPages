@@ -1,4 +1,5 @@
 ﻿using BearPawPages.Models;
+using BearPawPages.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,11 @@ namespace BearPawPages.Data
         public BookDbContext(DbContextOptions<BookDbContext> options) 
             : base(options)
         {
+        }
+
+        internal void SaveChanges(EditBookViewModel editBookViewModel)
+        {
+            throw new NotImplementedException();
         }
     }
 }
