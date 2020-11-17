@@ -1,0 +1,23 @@
+﻿11/17/2020 -- going to revert back only ONE model and viewmodel (B00k).  I need to UPDATE not create new tables.    
+					One table -->  BOOKS  = use html to update things on the table as it stands now
+							-- like color and text disyplay once completed (current = total page)
+
+	CURRENT PROGRESS:  
+
+	BooksController:  Updated Edit and EditBookData methods to take addBookViewModels
+						--GET works, POST nope
+
+
+	Edit.cshtml ==>  line 43 is causing problems.  If comment out, get request works, BUT unable to fulfil post request
+                Also, not sure what is wrong with the value function
+				Added notes on that line
+				Error:  CS1503:  System.NullReferenceException: 'Object reference not set to an instance of an object.'
+
+				updated HTML to use asp tags
+
+
+	resources for edit methods:  
+		     //https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/introduction/examining-the-edit-methods-and-edit-view
+            //https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/updating-related-data-with-the-entity-framework-in-an-asp-net-mvc-application
+
+			resource for updating persis data: https://education.launchcode.org/csharp-web-development/chapters/orm-intro/background.html

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BearPawPages.ViewModels
 {
-    public class AddBookMarkViewModel : AddBookViewModel
+   /* public class AddBookMarkViewModel : AddBookViewModel
 
         //review inheritence -->  i want to keep title, author, and total pages from original book object
                 //I want to update where my bookmark is, the date I'm reading, and i want to be able to add/edit notes
@@ -25,4 +25,5 @@ namespace BearPawPages.ViewModels
         //inherits Book Properties
         //PURPOSE:  To ONLY move page number, datetime and any notes
     }
+   */
 }

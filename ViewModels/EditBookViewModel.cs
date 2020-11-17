@@ -7,7 +7,7 @@ namespace BearPawPages.ViewModels
 {
     public class EditBookViewModel : AddBookViewModel
     {
-        public int Id { get; set; }
+       // public int Id { get; set; }
 
         
         //inheriting all properties of book 

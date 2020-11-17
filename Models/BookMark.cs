@@ -8,11 +8,11 @@ namespace BearPawPages.Models
     public class BookMark : Book
     {
 
-        public int CurrentPage { get; set; }  //I want to update this
+        public new int CurrentPage { get; set; }  //I want to update this
 
-        public DateTime ReadingDate { get; set; } //update this
+        public new DateTime ReadingDate { get; set; } //update this
 
-        public string ReadingNotes { get; set; }  //update this
+        public new string ReadingNotes { get; set; }  //update this
 
         public BookMark()
         { 

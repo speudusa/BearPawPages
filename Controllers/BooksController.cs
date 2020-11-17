@@ -42,7 +42,7 @@ namespace BearPawPages.Controllers
         {
             if (ModelState.IsValid)
             {
-                Book newBook = new Book
+                Book newBook = new Book  //what is this called? with {} instead of ();
                 {
                     Title = addBookViewModel.Title,
                     Author = addBookViewModel.Author,
@@ -64,32 +64,33 @@ namespace BearPawPages.Controllers
         }
 
     //Edit and EditBookData UPDATE ALL properties of book objects  *************************************
-            //built PRIOR to presistent data
+
+        //initally build pre-presist data, so having trouble updating
+        //CURRENTLY working on Edit and EditBookData Methods
 
         [HttpGet]
         [Route("/Books/Edit/{bookId}")]//incorporating id into the route path 
-        public IActionResult Edit(int bookId)  //identify specific book object
+        public IActionResult Edit(AddBookViewModel addBookViewModel)  //identify specific book object
         {
-            Book book = BookData.GetById(bookId);  //currently NOT using persistent Data.  
-            ViewBag.book = book;  //using this to create reference object
-            ViewBag.title = $"Edit Info for {book.Title}";
-            return View();
+            Book book = context.Books.Find(addBookViewModel.Id);
+                 
+            return View(book);
         }
 
         [HttpPost]
         [Route("/Books/Edit")]
-        public IActionResult EditBookData(int bookId, string title, string author, int totalPage, int currentPage, DateTime readingDate, string readingNotes)
+        public IActionResult EditBookData(AddBookViewModel addBookViewModel)  //purpose:  to UPDATE ANY element of book object
         {
-            Book book = BookData.GetById(bookId);  //making sure that same book object is being referenced 
+            Book book = context.Books.Find(addBookViewModel.Id);   //making sure that same book object is being referenced 
 
-            book.Title = title;  //listing like this will fill the boxes with the original input (which makes editing easier)
-            book.Author = author;
-            book.TotalPage = totalPage;
-            book.CurrentPage = currentPage;
-            book.ReadingDate = readingDate;
-            book.ReadingNotes = readingNotes;
+            book.Title = addBookViewModel.Title;  //want to be able to update input
+            book.Author = addBookViewModel.Author;
+            book.TotalPage = addBookViewModel.TotalPage;
+            book.CurrentPage = addBookViewModel.CurrentPage;
+            book.ReadingDate = addBookViewModel.ReadingDate;
+            book.ReadingNotes = addBookViewModel.ReadingNotes;   
 
-            context.SaveChanges();  //updating --this call is built for dB, but rest of method is not there
+            context.SaveChanges();  //updating 
             return Redirect("/Books");  //back to list once updated
         }
 
@@ -99,36 +100,31 @@ namespace BearPawPages.Controllers
         public IActionResult ReadBook(int bookId)
         {
             Book book = context.Books.Find(bookId);
-            ViewBag.book = book;
-            ViewBag.title = $"Move Your Bookmark in {book.Title}";  //breaks here too
-
-            return View();
-            //review the transition in the LC book???
+            
+            return View(book);
         }
-
-            //https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/introduction/examining-the-edit-methods-and-edit-view
-            //https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/updating-related-data-with-the-entity-framework-in-an-asp-net-mvc-application
 
 
         [HttpPost]
         [Route("/Books/ReadingTime/")]
-        //still need to work on datetime >>Pin<<
-        //not updating Data  Please review https://education.launchcode.org/csharp-web-development/chapters/orm-intro/background.html
-        public IActionResult MoveBookMark(AddBookMarkViewModel addBookMarkViewModel)
+        public IActionResult MoveBookMark(AddBookViewModel addBookViewModel)
         {
             if (ModelState.IsValid)
             {
                 Book book = new Book();
-                book.Title = addBookMarkViewModel.Title;
-                book.CurrentPage = addBookMarkViewModel.CurrentPage;
-                book.ReadingDate = addBookMarkViewModel.ReadingDate;
-                book.ReadingNotes = addBookMarkViewModel.ReadingNotes;
+                book.Title = addBookViewModel.Title;
+                book.CurrentPage = addBookViewModel.CurrentPage;
+                book.ReadingDate = addBookViewModel.ReadingDate;
+                book.ReadingNotes = addBookViewModel.ReadingNotes;
+
             }
             context.SaveChanges();
             return Redirect("/Books/");
         }
 
         
+        //************************ Delete methods  ********************************
+
         [HttpGet]//GET
         public IActionResult Delete(AddBookViewModel addBookViewModel)
         {
