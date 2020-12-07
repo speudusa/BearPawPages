@@ -5,23 +5,23 @@ using System.Threading.Tasks;
 
 namespace BearPawPages.Models
 {
-    public class BookMark : Book
+    public class BookMark 
     {
+        public string Title { get; set; }
 
-        public new int CurrentPage { get; set; }  //I want to update this
+        public int CurrentPage { get; set; }  //I want to update this
 
-        public new DateTime ReadingDate { get; set; } //update this
+        public  DateTime ReadingDate { get; set; } //update this
 
-        public new string ReadingNotes { get; set; }  //update this
+        public string ReadingNotes { get; set; }  //update this
 
         public BookMark()
         { 
         }
 
-        public BookMark(int id, string title, int currentPage, string readingNotes, DateTime readingDate)
+        public BookMark(string title, int currentPage, string readingNotes, DateTime readingDate)
         {
-            Id = id;  //inheriting
-            Title = title; //inheriting
+            Title = title;  //for reference on H1 tag
             CurrentPage = currentPage;  //updating
             ReadingDate = readingDate;  //updating
             ReadingNotes = readingNotes;  //updating

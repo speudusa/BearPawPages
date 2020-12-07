@@ -1,44 +1,36 @@
-﻿@using BearPawPages.ViewModels;
-@model AddBookViewModel;
-
-<h1>Add a Book</h1>
+﻿<h1>Add a Book</h1>
 
 <form method="post">
-    <div asp-controller="Book" asp-action="Add" class="form-group">
-        <lable asp-for="Title">Title:</lable>
-        <input asp-for="Title" />
-        <span asp-validation-for="Title"></span>
+    <div>
+        <lable for="title">Title</lable>
+        <input name="title" type="text" />
 
     </div>
 
     <div>
-        <lable asp-for="Author">Author:</lable>
-        <input asp-for="Author" />
-        <span asp-validation-for="Author"></span>
+        <lable for="author">Author</lable>
+        <input name="author" type="text" />
     </div>
 
     <div>
-        <lable asp-for="TotalPage">Total Number of Pages:</lable>
-        <input asp-for="TotalPage" />
-        <span asp-validation-for="TotalPage"></span>
+        <lable for="totalPage">Total Number of Pages</lable>
+        <input name="totalPage" type="text" />
     </div>
 
     <div>
-        <lable asp-for="CurrentPage">Current Page:</lable>
-        <input asp-for="CurrentPage" />
-        <span asp-validation-for="CurrentPage"></span>
+        <lable for="currentPage">Current Page</lable>
+        <input name="currentPage" type="text" />
     </div>
 
     @*<div>
-            <lable asp-for="ReadingDate">Date started reading:</lable>
-            <input asp-for="ReadingDate"  />
-            <span asp-validation-for="ReadingDate"></span>
+            <lable for="readingDate">Date started reading</lable>
+            <input name="author" type="text" />
         </div>*@
 
-<div>
-    <lable asp-for="ReadingNotes">Reading Notes:</lable>
-    <input asp-for="ReadingNotes" />
-</div>
+    <div>
+        <lable for="readingNotes">Reading Notes</lable>
+        <input name="readingNotes" type="text" />
+    </div>
 
     <input type="submit" value="Add Book" />
 </form>

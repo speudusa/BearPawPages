@@ -1,47 +1,37 @@
-﻿@using BearPawPages.ViewModels
-@model AddBookViewModel
+﻿<h1> @ViewBag.book.Title</h1>
 
+<form method="post" action="/Books/Edit">
+    <div>
+        <lable for="title">Title</lable>
+        <input name="title" type="text" value="@ViewBag.book.Title" />
 
-<h1>Edit any information for your book:</h1>
-
-<form method="post">
-    <div asp-controller="Book" asp-action="EditBookData" class="form-group">
-        <lable asp-for="Title">Title</lable>
-        <input asp-for="Title" />
-        <span asp-validation-for="Title"></span>
     </div>
 
     <div>
-        <lable asp-for="Author">Author:</lable>
-        <input asp-for="Author" />
-        <span asp-validation-for="Author"></span>
+        <lable for="author">Author</lable>
+        <input name="author" type="text" value="@ViewBag.book.Author" />
     </div>
 
     <div>
-        <lable asp-for="TotalPage">Total Number of Pages:</lable>
-        <input asp-for="TotalPage" />
-        <span asp-validation-for="TotalPage"></span>
+        <lable for="totalPage">Total Number of Pages</lable>
+        <input name="totalPage" type="text" value="@ViewBag.book.TotalPage" />
     </div>
 
     <div>
-        <lable asp-for="CurrentPage">Current Page:</lable>
-        <input asp-for="CurrentPage" />
-        <span asp-validation-for="CurrentPage"></span>
+        <lable for="currentPage">Current Page</lable>
+        <input name="currentPage" type="text" value="@ViewBag.book.CurrentPage" />
     </div>
 
     @*<div>
-            <lable asp-for="ReadingDate">Date started reading:</lable>
-            <input asp-for="ReadingDate"  />
-            <span asp-validation-for="ReadingDate"></span>
+            <lable for="readingDate">Date started reading</lable>
+            <input name="author" type="text" value="@ViewBag.book.ReadingDate"/>
         </div>*@
 
     <div>
-        <lable asp-for="ReadingNotes">Reading Notes:</lable>
-        <input asp-for="ReadingNotes" />
+        <lable for="readingNotes">Reading Notes</lable>
+        <input name="readingNotes" type="text" value="@ViewBag.book.ReadingNotes" />
     </div>
 
-    <input type="hidden" name="bookId" value="@Model.Id" />  @* **** ERROR:  CS1503:  System.NullReferenceException: 'Object reference not set to an instance of an object.'  ****   *@
+    <input type="hidden" name="bookId" value="@ViewBag.book.Id" />
     <input type="submit" value="Edit Book Info" />
 </form>
-
-

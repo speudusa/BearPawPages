@@ -13,142 +13,112 @@ namespace BearPawPages.Controllers
     public class BooksController : Controller
 
     {
-        private BookDbContext context;
-
-        public BooksController(BookDbContext dbContext)
-        {
-            context = dbContext;
-        }
 
         [HttpGet]
         public IActionResult Index()
         {
-            List<Book> books = context.Books.ToList();
+            ViewBag.books = BookData.GetAll();
 
-            return View(books);
+            return View();
         }
 
-    //Creates book objects  *****************************
+        //Add a book to your bookshelf  Create NEW Book object here  ***********************************************************
 
         [HttpGet] 
         public IActionResult Add()
         {
-            AddBookViewModel addBookViewModel = new AddBookViewModel();
-            return View(addBookViewModel);
+            return View();
         }
 
-        [HttpPost] 
-        public IActionResult Add(AddBookViewModel addBookViewModel)
+        [HttpPost]  
+        [Route("/Books/Add")]
+
+        public IActionResult NewBook(Book newBook)
         {
-            if (ModelState.IsValid)
-            {
-                Book newBook = new Book  //what is this called? with {} instead of ();
-                {
-                    Title = addBookViewModel.Title,
-                    Author = addBookViewModel.Author,
-                    TotalPage = addBookViewModel.TotalPage,
-                    CurrentPage = addBookViewModel.CurrentPage,
-                    ReadingDate = addBookViewModel.ReadingDate,
-                    ReadingNotes = addBookViewModel.ReadingNotes
-                };
-
-                context.Books.Add(newBook);
-                context.SaveChanges();
+            BookData.Add(newBook);
 
 
-                return Redirect("/Books");
-            }
-
-            return View(addBookViewModel);
-
+            return Redirect("/Books");
         }
 
-    //Edit and EditBookData UPDATE ALL properties of book objects  *************************************
+        //Edit and EditBookData UPDATE all properties of book objects  *********************************************************
 
-        //initally build pre-presist data, so having trouble updating
-        //CURRENTLY working on Edit and EditBookData Methods
-
-        [HttpGet]
-        [Route("/Books/Edit/{bookId}")]//incorporating id into the route path 
-        public IActionResult Edit(AddBookViewModel addBookViewModel)  //identify specific book object
+       [HttpGet]
+        [Route("/Books/Edit/{bookId}")]
+        public IActionResult Edit(int bookId)
         {
-            Book book = context.Books.Find(addBookViewModel.Id);
-                 
-            return View(book);
+            Book book = BookData.GetById(bookId);
+            ViewBag.book = book;
+            ViewBag.title = $"Edit Book Info for {book.Title} (id={book.Id})";
+
+            return View();
         }
 
         [HttpPost]
         [Route("/Books/Edit")]
-        public IActionResult EditBookData(AddBookViewModel addBookViewModel)  //purpose:  to UPDATE ANY element of book object
+        public IActionResult EditBookData(int bookId, string title, string author, int totalPage, int currentPage, string readingNotes)
         {
-            Book book = context.Books.Find(addBookViewModel.Id);   //making sure that same book object is being referenced 
+            Book book = BookData.GetById(bookId);
+            book.Title = title;
+            book.Author = author;
+            book.TotalPage = totalPage;
+            book.CurrentPage = currentPage;
+           // book.ReadingDate = readingDate;
+            book.ReadingNotes = readingNotes;
 
-            book.Title = addBookViewModel.Title;  //want to be able to update input
-            book.Author = addBookViewModel.Author;
-            book.TotalPage = addBookViewModel.TotalPage;
-            book.CurrentPage = addBookViewModel.CurrentPage;
-            book.ReadingDate = addBookViewModel.ReadingDate;
-            book.ReadingNotes = addBookViewModel.ReadingNotes;   
-
-            context.SaveChanges();  //updating 
-            return Redirect("/Books");  //back to list once updated
+            return Redirect("/Books");
         }
 
-   //Readbook and MoveBookMark UPDATE current page and date  *********************************
-            [HttpGet]
-            [Route("/Books/ReadBook/{bookId}")]
+
+
+
+        //Readbook and MoveBookMark UPDATE current page and date ****************************************************
+
+        [HttpGet]
+        [Route("/Books/ReadBook/{bookId}")]
         public IActionResult ReadBook(int bookId)
         {
-            Book book = context.Books.Find(bookId);
-            
-            return View(book);
+            Book book = BookData.GetById(bookId);
+            ViewBag.book = book;
+            ViewBag.title = $"Move Your Bookmark in {book.Title}";
+            return View();
         }
 
 
         [HttpPost]
         [Route("/Books/ReadingTime/")]
-        public IActionResult MoveBookMark(AddBookViewModel addBookViewModel)
+        public IActionResult MoveBookMark(int bookId, int currentPage, string readingNotes)
         {
-            if (ModelState.IsValid)
-            {
-                Book book = new Book();
-                book.Title = addBookViewModel.Title;
-                book.CurrentPage = addBookViewModel.CurrentPage;
-                book.ReadingDate = addBookViewModel.ReadingDate;
-                book.ReadingNotes = addBookViewModel.ReadingNotes;
+            Book book = BookData.GetById(bookId);
+            book.CurrentPage = currentPage;
+            //book.ReadingDate = readingDate;
+            book.ReadingNotes = readingNotes;
 
-            }
-            context.SaveChanges();
             return Redirect("/Books/");
         }
 
-        
+
+
         //************************ Delete methods  ********************************
 
-        [HttpGet]//GET
-        public IActionResult Delete(AddBookViewModel addBookViewModel)
+        [HttpGet]
+        public IActionResult Delete()
         {
-            Book book = new Book();
+            ViewBag.books = BookData.GetAll();
+
             return View();
         }
 
+
         [HttpPost]
-        public IActionResult DeleteBook(AddBookViewModel addBookViewModel)
+        public IActionResult Delete(int[] bookIds)
         {
-            if (ModelState.IsValid)
+            foreach (int bookId in bookIds)
             {
-                Book theBook = new Book();
-                context.Books.Remove(theBook);
+                BookData.Remove(bookId);
             }
-            context.SaveChanges();
+
             return Redirect("/Books/");
         }
-        
     }
 }
-
-
-//TODO:  
-    // 1. View Models?  
-    // 2. Play with formatting
-    // 3. PERSISTENT DATA IS A MUST

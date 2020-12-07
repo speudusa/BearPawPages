@@ -1,34 +1,24 @@
-﻿@using BearPawPages.ViewModels;
-@model AddBookViewModel;
-
-
-
-<h1>@ViewBag.Title </h1>
+﻿<h1>Update Your Book mark @ViewBag.book.Title</h1>
 <h3>Update your current page to track your reading progress</h3>
 <h3>Update or add any notes, too.</h3>
 
 <form method="post" action="/Books/ReadingTime">
-    <div asp-controller="Book" asp-action="MoveBookMark">
-        <lable for="CurrentPage">Current Page</lable>
-        <span asp-validation-for="CurrentPage"></span>
-
+    <div>
+        <lable for="currentPage">Current Page</lable>
+        <input name="currentPage" type="text" value="@ViewBag.book.CurrentPage" />
     </div>
 
-    @*<div asp-controller="Book" asp-action="EditBookData">
-        <lable for="ReadingDate">Reading Date</lable>
-        <span asp-validation-for="ReadingDate"></span>
-    </div>*@
+    @*<div>
+            <lable for="readingDate">Date started reading</lable>
+            <input name="author" type="text" value="@ViewBag.book.ReadingDate" />
+        </div>*@
 
-    <div asp-controller="Book" asp-action="MoveBookMark">
-        <lable for="ReadingNotes">Reading Notes</lable>
-        <span asp-validation-for="ReadingNotes"></span>
+    <div>
+        <lable for="readingNotes">Reading Notes</lable>
+        <input name="readingNotes" type="text" value="@ViewBag.book.ReadingNotes" />
     </div>
 
-    <input type="hidden" name="Id" value="Model.Id" />  
-            @*  *@
-
-
+    <input type="hidden" name="bookId" value="@ViewBag.book.Id" />
     <input type="submit" value="Move Your Book Mark" />
 </form>
-
 

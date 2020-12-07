@@ -11,25 +11,26 @@ namespace BearPawPages.Data
         //store books
         private static Dictionary<int, Book> Books = new Dictionary<int, Book>();
 
-        //add events
+        //add a book
         public static void Add(Book newBook)
         {
             Books.Add(newBook.Id, newBook);
         }
 
-        //retreive events
+        //retreive ALL of the books
         public static IEnumerable<Book> GetAll()
         {
             return Books.Values;
-                //only returning the books themselves, not the list
+                //only returning the book objects themselves, not the list
         }
+
         //retreive a single book
         public static Book GetById(int id)
         {
             return Books[id];
         }
 
-        //remove event
+        //remove book
         public static void Remove(int id)
         {
             Books.Remove(id);
@@ -38,4 +39,4 @@ namespace BearPawPages.Data
     }
 }
 
-//purpose = house book collection and define what can be done on our collection
+//purpose = house book collection and define what can be done to/with our collection

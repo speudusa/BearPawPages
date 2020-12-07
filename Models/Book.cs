@@ -19,10 +19,18 @@ namespace BearPawPages.Models
 
         public string ReadingNotes { get; set; }
 
-        public int Id { get; set; }
+        public int Id { get; }
 
+        private static int nextId = 1;
+
+
+        //initiating Id here
         public Book()
         {
+            Id = nextId;
+            nextId++;
+
+            //0 arguments allows for model binding
         }
 
 
@@ -36,5 +44,20 @@ namespace BearPawPages.Models
             ReadingNotes = readingNotes;
         }
 
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Book @book &&
+                Id == book.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id);
+        }
     }
 }
